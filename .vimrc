@@ -9,8 +9,6 @@ execute pathogen#infect()
 if filereadable(expand("~/.vimrc.before"))
   source ~/.vimrc.before
 endif
-imap <S-Right> <C-o>v
-imap <S-Left> <Left><C-o>v
 set pumheight=5
 " ================ General Config ====================
 set number                      "Line numbers are good
@@ -26,42 +24,42 @@ set laststatus=2
 " exist in the background without being in a window.
 " http://items.sjbach.com/319/configuring-vim-right
 set hidden
+set expandtab
+nmap a <nop>
+nmap a :set paste<cr>i
+au InsertLeave * silent execute "set nopaste"
 "turn on syntax highlighting
 syntax on
-"imap <C-shift-z> <c-o>:redo<cr>
 " Change leader to a comma because the backslash is too far away
 " That means all \x commands turn into ,x
 " The mapleader has to be set before vundle starts loading all 
 " the plugins.
-let g:acp_nextItemMapping = ['<TAB>', '\<lt>TAB>']
 let g:mapleader = "'"
-nmap <S-g> :e<cr>:$<cr>:source /root/log.vim<cr>
+let g:acp_mappingDriven =0
 function! Foo()
    :qa!
 endfunction
-colorscheme cool
+colorscheme pablo 
 hi EasyMotionShade guibg=white ctermfg=white
-
-imap <C-z> <C-o>:qa!<cr>
+highlight Pmenu ctermfg=white ctermbg=lightblue
+highlight PmenuSel ctermfg=white ctermbg=magenta
 " Fast saving
-nmap <leader>w :w!<cr>
 nmap <leader>q :q<cr>
 nmap <leader>z :execute Foo()<cr>
 nmap <leader>x :x!<cr>
-
+imap <C-a> :call QuickfixToggle()<cr>
 " =============== Vundle Initialization ===============
 " This loads all the plugins specified in ~/.vim/vundle.vim
 " Use Vundle plugin to manage all other plugins
 if filereadable(expand("~/.vim/vundles.vim"))
   source ~/.vim/vundles.vim
 endif
-nmap i <insert>
 " ================ Turn Off Swap Files ==============
 
 set noswapfile
 set nobackup
 set nowb
-
+let g:quickfix_is_open = 0
 " ================ Persistent Undo ==================
 " Keep undo history across sessions, by storing in file.
 " Only works all the time.
@@ -85,7 +83,7 @@ filetype indent on
 " Display tabs and trailing spaces visually
 set list listchars=tab:\ \.,trail:·
 
-set nowrap       "Don't wrap lines
+set wrap       "Don't wrap lines
 set linebreak    "Wrap lines at convenient points
 
 " ================ Folds ============================
@@ -122,25 +120,15 @@ set sidescroll=1
 "====== My shit =======
 
 " use an orange cursor in insert mode
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "  silent !echo -ne \033]12;white\007
 	" reset cursor when vim exits
 autocmd VimLeave * silent !echo -ne \033]112\007
+autocmd InsertLeave * silent set nopaste
+
   " use \003	]12;gray\007 for gnome-terminal
-function! Log()
-	hi Error ctermfg=red
-	hi File ctermfg=3
-	hi class ctermfg=cyan
-	hi Command ctermfg=green
-	hi Ok ctermfg=white
-	hi Regular ctermfg=yellow
-
-	match Command /getReadDelay _getDiskStats _getDiskLatency reloadlvs/
-endfunction
-
-
-let g:acp_mappingDriven = 1
 set autochdir
-
 imap <C-Left>     <esc>:tabp<CR><ins>
 nmap <C-Left>		   :tabp<CR>
 imap <C-right>     <esc>:tabn<CR><ins>
@@ -149,13 +137,11 @@ nmap <C-right>			:tabn<CR>
 "imap <C-Right> <C-o>:wincmd k<cr>
 "nmap <C-Left> :wincmd h<cr>
 "nmap <C-Right> :wincmd k<cr>
-
 let g:session_autosave = 'yes'
-vmap <C-x> d
 nmap <C-e>       :Error<CR>
 imap <C-e> <Nop>
 imap <C-e>  <C-o>:Error<CR>
-imap <C-]>  <C-o>:
+imap <C-\>  <C-o>:set paste<cr>
 "============ statusline =============
 set statusline+=%#warningmsg#
 set statusline+=%*
@@ -190,24 +176,13 @@ set guitablabel=%!GuiTabLabeler()
 nmap q :q<cr>
 
 "========== Insert Mode mappings =======
-nmap <C-z> <NOP>
-nmap <C-z> u
-nmap r :redo<cr>
-imap <C-u>  <C-o><Leader><Leader>b
-imap <C-d>  <C-o><Leader><Leader>w
 imap <C-w>  <C-o>e
 imap <C-b>  <C-o>b
-vmap <S-Down> j
-vmap <S-Right> l
-vmap <S-Left> h
-vmap <Left> v<Left>
-vmap <Right> v<Right>
-vmap <C-c> y
 imap <C-f> <esc>:MRU<CR>
 nmap <C-f>		:MRU<CR>
-"========save?===
-nmap <c-s> :w<CR>
-imap <c-s> <C-o>:w<CR>
+"========save?====
+nmap <C-s> :w!<cr>
+imap <C-s> <C-o>:w!<cr>
 set guioptions-=r
 set guioptions-=T
 
@@ -223,8 +198,11 @@ hi SignColumn ctermfg=3 guifg=#93a1a1 guibg=#eee8d5
 hi SyntasticErrorLine guifg=red
 nmap <C-l> :TlistToggle<cr>
 set completeopt=menu,longest
-vmap <S-Up> k
 hi Visual  guifg=#000000 guibg=white gui=none ctermfg=white
 hi MatchParen ctermbg=none ctermfg=red
 set statusline+=%F
+hi TabLine ctermfg=yellow ctermbg=blue
+hi TabLineSel ctermfg=yellow ctermbg=white
+nmap > :call EasyMotionWB(0 ,0)<cr>
+nmap < :call EasyMotionWB(0 ,1)<cr>
 
