@@ -120,8 +120,6 @@ set sidescroll=1
 "====== My shit =======
 
 " use an orange cursor in insert mode
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "  silent !echo -ne \033]12;white\007
 	" reset cursor when vim exits
 autocmd VimLeave * silent !echo -ne \033]112\007
@@ -152,8 +150,7 @@ function! GuiTabLabeler()
   let tabno = tabpagenr()
   let label = ''
   let bufnrlist = tabpagebuflist(v:lnum)
-
-  " Add '+' if one of the buffers in the tab page is modified
+" Add '+' if one of the buffers in the tab page is modified
   for bufnr in bufnrlist
     if getbufvar(bufnr, "&modified")
       let label = '[+]'
@@ -171,7 +168,11 @@ function! GuiTabLabeler()
          \ fnamemodify(bufname(bufnrlist[tabpagewinnr(v:lnum) - 1]), ":t")
          \ . label
 endfunction
-
+au InsertEnter * set nocursorcolumn
+au InsertEnter * set nocursorline
+au InsertLeave * set cursorline
+au InsertLeave * set cursorcolumn
+  
 set guitablabel=%!GuiTabLabeler()
 nmap q :q<cr>
 
@@ -205,4 +206,6 @@ hi TabLine ctermfg=yellow ctermbg=blue
 hi TabLineSel ctermfg=yellow ctermbg=white
 nmap > :call EasyMotionWB(0 ,0)<cr>
 nmap < :call EasyMotionWB(0 ,1)<cr>
-
+set cursorline
+set cursorcolumn
+hi CursorColumn ctermbg=grey
