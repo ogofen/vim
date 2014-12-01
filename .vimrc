@@ -122,8 +122,6 @@ set sidescroll=1
 "====== My shit =======
 
 " use an orange cursor in insert mode
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "  silent !echo -ne \033]12;white\007
 	" reset cursor when vim exits
 autocmd VimLeave * silent !echo -ne \033]112\007
