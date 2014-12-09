@@ -83,7 +83,7 @@ filetype indent on
 " Display tabs and trailing spaces visually
 set list listchars=tab:\ \.,trail:·
 
-set wrap       "Don't wrap lines
+set nowrap       "Don't wrap lines
 set linebreak    "Wrap lines at convenient points
 
 " ================ Folds ============================
@@ -197,7 +197,8 @@ augroup mine
 augroup END
 hi SignColumn ctermfg=3 guifg=#93a1a1 guibg=#eee8d5
 hi SyntasticErrorLine guifg=red
-nmap <C-l> :TlistToggle<cr>
+nmap <C-l> :tabn<cr>
+nmap <C-h> :tabp<cr>
 set completeopt=menu,longest
 hi Visual  guifg=#000000 guibg=white gui=none ctermfg=white
 hi MatchParen ctermbg=none ctermfg=red
@@ -208,4 +209,4 @@ nmap > :call EasyMotionWB(0 ,0)<cr>
 nmap < :call EasyMotionWB(0 ,1)<cr>
 set cursorline
 set cursorcolumn
-hi CursorColumn ctermbg=grey
+hi CursorColumn ctermbg=darkblue
