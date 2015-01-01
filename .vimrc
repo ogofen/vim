@@ -211,3 +211,4 @@ set cursorline
 set cursorcolumn
 hi CursorColumn ctermbg=darkblue
 vmap <cr> y
+nmap ; jjj
