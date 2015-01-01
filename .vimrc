@@ -212,3 +212,4 @@ set cursorcolumn
 hi CursorColumn ctermbg=darkblue
 vmap <cr> y
 nmap ; jjj
+hi TabLine ctermfg=white
