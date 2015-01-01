@@ -210,3 +210,4 @@ nmap < :call EasyMotionWB(0 ,1)<cr>
 set cursorline
 set cursorcolumn
 hi CursorColumn ctermbg=darkblue
+vmap <cr> y
